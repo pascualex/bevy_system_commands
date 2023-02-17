@@ -14,11 +14,11 @@ fn main() {
 }
 
 #[derive(Resource, Default, Deref, DerefMut)]
-struct Numbers(Vec<u32>);
+struct Numbers(Vec<i32>);
 
-struct CountTo(u32);
+struct CountTo(i32);
 
-struct WriteNumber(u32);
+struct WriteNumber(i32);
 
 fn add_commands(mut commands: Commands) {
     commands.add_system_command(CountTo(3));
