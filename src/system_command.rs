@@ -5,7 +5,10 @@ use std::{
 };
 
 use bevy::{
-    ecs::{schedule::ScheduleLabel, system::Command},
+    ecs::{
+        schedule::{ExecutorKind, ScheduleLabel},
+        system::Command,
+    },
     prelude::*,
 };
 
@@ -73,7 +76,10 @@ impl RegisterCommand for App {
         &mut self,
         system: impl IntoSystemConfig<P>,
     ) -> &mut Self {
-        self.init_schedule(CommandScheduleLabel::<T>::default())
-            .add_system_to_schedule(CommandScheduleLabel::<T>::default(), system)
+        let mut schedule = Schedule::new();
+        schedule
+            .set_executor_kind(ExecutorKind::SingleThreaded)
+            .add_system(system);
+        self.add_schedule(CommandScheduleLabel::<T>::default(), schedule)
     }
 }
