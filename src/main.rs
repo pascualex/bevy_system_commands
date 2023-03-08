@@ -26,15 +26,13 @@ fn add_commands(mut commands: Commands) {
     commands.add_system_command(CountTo(2));
 }
 
-fn count_to(command: In<CountTo>, mut commands: Commands) {
-    let CountTo(number) = command.0;
+fn count_to(In(CountTo(number)): In<CountTo>, mut commands: Commands) {
     for i in 1..=number {
         commands.add_system_command(WriteNumber(i));
     }
 }
 
-fn write_number(command: In<WriteNumber>, mut numbers: ResMut<Numbers>) {
-    let WriteNumber(number) = command.0;
+fn write_number(In(WriteNumber(number)): In<WriteNumber>, mut numbers: ResMut<Numbers>) {
     numbers.push(number);
 }
 
